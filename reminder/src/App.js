@@ -1,8 +1,9 @@
 import "./App.css";
 import React, { useReducer } from "react";
 import style from "./todos.module.css";
-import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
+
 const data = [
   {
     id: 1,
@@ -22,9 +23,11 @@ const reducer = function (state, actoin) {
       if (todo.id === actoin.id) {
         return { ...todo, complete: !todo.complete };
       }
+      return todo;
     });
   }
   if (actoin.type === "DELETE") {
+    return state.filter((todo) => todo.id !== actoin.id);
   }
 };
 
@@ -34,27 +37,48 @@ function App() {
   const completeFunc = function (id) {
     dispatch({ type: "DONE", id: id });
   };
+  const deleteFunc = function (id) {
+    dispatch({ type: "DELETE", id: id });
+  };
 
   return (
-    <div className={style.main}>
-      {todos.map((todo) => (
-        <div
-          key={todo.id}
-          className={!todo.complete ? style.mother : style.complete}
-        >
-          <div className={style.childTodo}>
-            <h3>{todo.title}</h3>
-            <div className={style.icons}>
-              <MdCheckBoxOutlineBlank
-                className={style.icon}
-                onClick={() => completeFunc(todo.id)}
-              />
-              <FaTrash className={style.icon} />
+    <>
+      <div className={style.main}>
+        <form>
+          <div>
+            <input type="text" placeHolder="Add a todo..." />
+            <button>go</button>
+          </div>
+        </form>
+        {todos.map((todo) => (
+          <div
+            key={todo.id}
+            className={!todo.complete ? style.mother : style.complete}
+          >
+            <div className={style.childTodo}>
+              <h3>{todo.title}</h3>
+              <div className={style.icons}>
+                {!todo.complete ? (
+                  <MdCheckBoxOutlineBlank
+                    className={style.icon}
+                    onClick={() => completeFunc(todo.id)}
+                  />
+                ) : (
+                  <MdCheckBox
+                    className={style.icon}
+                    onClick={() => completeFunc(todo.id)}
+                  />
+                )}
+                <FaTrash
+                  className={style.icon}
+                  onClick={() => deleteFunc(todo.id)}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
 

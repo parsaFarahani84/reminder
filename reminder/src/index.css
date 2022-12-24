@@ -1,5 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;500;600&display=swap");
+
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #333;
+  font-family: "Hanken Grotesk", sans-serif;
 }

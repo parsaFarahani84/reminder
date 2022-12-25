@@ -1,5 +1,5 @@
 .main {
-  margin: 8rem 25rem 0 25rem;
+  margin: 5rem;
   padding: 3rem;
   gap: 1rem;
   display: flex;
@@ -34,4 +34,32 @@
 .icon {
   cursor: pointer;
   font-size: 1.5rem;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formMain {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.formMain input {
+  /* width: 100%; */
+  padding: 0.5rem;
+}
+
+.formMain button {
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5rem;
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
 }

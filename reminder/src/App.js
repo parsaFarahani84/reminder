@@ -1,8 +1,9 @@
 import "./App.css";
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import style from "./todos.module.css";
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 
 const data = [
   {
@@ -17,6 +18,10 @@ const data = [
   },
 ];
 
+const template = function (name) {
+  return { id: Date.now(), title: name, complete: false };
+};
+
 const reducer = function (state, actoin) {
   if (actoin.type === "DONE") {
     return state.map((todo) => {
@@ -28,6 +33,9 @@ const reducer = function (state, actoin) {
   }
   if (actoin.type === "DELETE") {
     return state.filter((todo) => todo.id !== actoin.id);
+  }
+  if (actoin.type === "ADD") {
+    return [...state, template(actoin.title)];
   }
 };
 
@@ -41,13 +49,32 @@ function App() {
     dispatch({ type: "DELETE", id: id });
   };
 
+  const [name, setName] = useState("");
+
+  const submitHandler = function (e) {
+    e.preventDefault();
+    if (name.length === 0) {
+      return;
+    }
+    dispatch({ type: "ADD", title: name });
+    console.log(name);
+    setName("");
+  };
+
   return (
     <>
       <div className={style.main}>
-        <form>
-          <div>
-            <input type="text" placeHolder="Add a todo..." />
-            <button>go</button>
+        <form className={style.form} onSubmit={submitHandler}>
+          <div className={style.formMain}>
+            <input
+              type="text"
+              placeHolder="Add a todo..."
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
+            <button>
+              <IoSend />
+            </button>
           </div>
         </form>
         {todos.map((todo) => (
